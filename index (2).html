@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SevenLingo — English at the speed of now</title>
+<meta name="description" content="SevenLingo helps Moroccan learners speak English with confidence through practical lessons, real-life expressions and consistent practice.">
+<meta property="og:title" content="SevenLingo — English at the speed of now">
+<meta property="og:description" content="English that actually fits your life. Practical English for Moroccan learners.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#171717">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   DESIGN TOKENS  (locked before any section was written)
+   ===================================================================== */
+:root{
+  /* Color — roles, not decoration */
+  --ink:#171717;            /* authority, dark sections, primary text */
+  --sand:#F5F0E7;           /* editorial canvas */
+  --white:#FFFFFF;          /* breathing room */
+  --lime:#D5FF45;           /* CTA + single energetic highlight */
+  --terracotta:#C76545;     /* warmth, Moroccan connection (fills only) */
+  --terracotta-deep:#A04A2D;/* terracotta when used as TEXT on sand (AA) */
+  --sage:#A9B8A0;           /* balance, calm section */
+  --text:#171717;
+  --text-2:rgba(23,23,23,.70);
+  --text-on-ink:#F5F0E7;
+  --text-on-ink-2:rgba(245,240,231,.70);
+  --line:rgba(23,23,23,.16);
+  --line-on-ink:rgba(245,240,231,.20);
+  --focus:#1F5C68;
+
+  /* Type */
+  --f-display:'Fraunces',Georgia,serif;
+  --f-body:'Archivo',system-ui,sans-serif;
+  --f-ar:'IBM Plex Sans Arabic','Noto Sans Arabic',system-ui,sans-serif;
+  --fs-display:clamp(2.9rem,8.4vw,8rem);   /* hero */
+  --fs-h2:clamp(2.1rem,5.2vw,4.9rem);
+  --fs-h3:clamp(1.35rem,2.3vw,2rem);
+  --fs-body:clamp(1.05rem,1.15vw,1.2rem);
+  --fs-small:.9rem;
+  --lh-display:.98; --lh-head:1.06; --lh-body:1.6; --lh-ar:1.75;
+  --ls-display:-.025em;
+
+  /* Layout */
+  --max:1320px;
+  --gutter:clamp(20px,5vw,72px);
+  --section-y:clamp(88px,14vw,180px);
+  --r-s:12px; --r-m:24px; --r-l:40px; --r-pill:999px;
+  /* Breakpoints used: 768 (tablet), 960 (horizontal/pinned layouts), 1440 (desktop target) */
+
+  /* Motion (mirrored in JS) */
+  --dur-s:.25s; --dur-m:.6s; --dur-l:1.1s;
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-io:cubic-bezier(.65,0,.35,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:auto}
+body{margin:0;background:var(--sand);color:var(--text);font-family:var(--f-body);font-size:var(--fs-body);line-height:var(--lh-body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;letter-spacing:var(--ls-display)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:6px}
+.on-ink :focus-visible,.on-ink:focus-visible{outline-color:var(--lime)}
+.skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:var(--sand);padding:10px 16px;border-radius:var(--r-s);z-index:200}
+.skip:focus{left:8px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+.ar{font-family:var(--f-ar);line-height:var(--lh-ar);font-weight:500;letter-spacing:0}
+section{position:relative}
+.sec-label{font-weight:700;font-size:var(--fs-small);color:var(--terracotta-deep);margin-bottom:20px;display:block}
+.on-ink .sec-label{color:var(--lime)}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 30px;border-radius:var(--r-pill);font-weight:700;font-size:1rem;border:2px solid var(--ink);background:transparent;transition:transform var(--dur-s) var(--ease-out),background var(--dur-s),color var(--dur-s),box-shadow var(--dur-s)}
+.btn:active{transform:translateY(2px) scale(.98)}
+.btn-primary{background:var(--lime);box-shadow:0 5px 0 var(--ink)}
+.btn-primary:hover{box-shadow:0 7px 0 var(--ink);transform:translateY(-2px)}
+.btn-primary:active{box-shadow:0 1px 0 var(--ink);transform:translateY(4px)}
+.btn-ghost:hover{background:var(--ink);color:var(--sand)}
+.on-ink .btn{border-color:var(--sand);color:var(--sand)}
+.on-ink .btn-primary{background:var(--lime);color:var(--ink);border-color:var(--lime);box-shadow:0 5px 0 var(--sand)}
+.on-ink .btn-ghost:hover{background:var(--sand);color:var(--ink)}
+
+/* ---------- Nav ---------- */
+.nav{position:fixed;inset:0 0 auto 0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px var(--gutter);transition:background var(--dur-m),box-shadow var(--dur-m)}
+.nav.solid{background:rgba(245,240,231,.92);backdrop-filter:blur(8px);box-shadow:0 1px 0 var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:800;font-size:1.35rem;letter-spacing:-.01em}
+.logo svg{width:22px;height:26px}
+.logo .l{color:var(--terracotta-deep)}
+.nav-links{display:flex;gap:30px;align-items:center}
+.nav-links a:not(.btn){font-weight:600;font-size:.95rem;opacity:.8}
+.nav-links a:not(.btn):hover{opacity:1}
+.nav .btn{min-height:44px;padding:0 20px;font-size:.92rem}
+.menu-btn{display:none;width:48px;height:48px;border:2px solid var(--ink);border-radius:50%;background:transparent;align-items:center;justify-content:center}
+@media (max-width:860px){
+  .menu-btn{display:inline-flex}
+  .nav-links{position:fixed;inset:0;background:var(--ink);color:var(--sand);flex-direction:column;justify-content:center;gap:26px;font-size:1.6rem;transform:translateY(-100%);visibility:hidden;transition:transform var(--dur-m) var(--ease-io),visibility 0s .6s}
+  .nav-links.open{transform:none;visibility:visible;transition:transform var(--dur-m) var(--ease-io)}
+  .nav-links a:not(.btn){font-family:var(--f-display);font-size:2rem;opacity:1}
+  .nav-links .btn{border-color:var(--lime);background:var(--lime);color:var(--ink);box-shadow:none}
+  .menu-btn{position:relative;z-index:101}
+  .nav.menu-open .menu-btn{border-color:var(--sand);color:var(--sand)}
+}
+
+/* =====================================================================
+   01 HERO — asymmetric: type left, arch artwork right, bleeding off-grid
+   ===================================================================== */
+.hero{min-height:100svh;padding:110px 0 70px;display:flex;align-items:center;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(20px,4vw,60px);align-items:center;width:100%}
+.hero-eyebrow{display:flex;align-items:center;gap:12px;font-weight:700;font-size:var(--fs-small);margin-bottom:26px}
+.hero-eyebrow i{width:36px;height:2px;background:var(--ink);display:block}
+.hero h1{font-size:var(--fs-display);line-height:var(--lh-display);letter-spacing:var(--ls-display);font-weight:600}
+.hero h1 .ln{display:block;overflow:hidden;padding-bottom:.08em}
+.hero h1 .ln>span{display:block}
+.hero-ar{font-size:clamp(1.5rem,3vw,2.5rem);margin-top:30px;max-width:22ch;color:var(--terracotta-deep);font-weight:700}
+.hero-ar2{font-size:clamp(1.05rem,1.5vw,1.3rem);margin-top:8px;color:var(--text-2)}
+.hero-sub{max-width:44ch;margin-top:28px;color:var(--text-2)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:16px;margin-top:38px}
+.hero-art{position:relative;aspect-ratio:600/720;width:min(100%,520px);justify-self:end}
+.hero-art>svg{width:100%;height:100%}
+.bubble{position:absolute;padding:12px 20px;border-radius:22px 22px 22px 4px;font-weight:700;font-size:clamp(.95rem,1.3vw,1.15rem);box-shadow:0 4px 0 var(--ink);border:2px solid var(--ink);white-space:nowrap}
+.bubble.b1{background:var(--lime);left:-8%;top:16%}
+.bubble.b2{background:var(--white);right:-6%;top:44%;border-radius:22px 22px 4px 22px;font-family:var(--f-ar);font-size:clamp(1.1rem,1.6vw,1.35rem)}
+.bubble.b3{background:var(--sand);left:2%;bottom:10%}
+@media (max-width:860px){
+  .hero{padding-top:100px}
+  .hero-grid{grid-template-columns:1fr}
+  .hero-art{justify-self:center;width:min(86%,400px);margin-top:20px}
+  .bubble.b1{left:-2%}.bubble.b2{right:-2%}
+}
+
+/* =====================================================================
+   02 PROBLEM — ink; pinned word-by-word text transformation (desktop)
+   ===================================================================== */
+.problem{background:var(--ink);color:var(--text-on-ink)}
+.problem-head{padding:var(--section-y) 0 40px}
+.problem h2{font-size:var(--fs-h2);line-height:var(--lh-head);max-width:15ch}
+.problem-ar{font-size:clamp(1.2rem,2vw,1.7rem);margin-top:26px;color:var(--lime)}
+.problem-stage{padding-bottom:var(--section-y)}
+.struggle{font-family:var(--f-display);font-size:clamp(1.7rem,4vw,3.6rem);line-height:1.15;letter-spacing:-.015em;max-width:20ch;padding:28px 0;border-top:1px solid var(--line-on-ink)}
+.struggle .w{display:inline-block;margin-right:.26em}
+.struggle.resolve{color:var(--lime);font-weight:800}
+.problem-bar{display:none}
+.pin-mode .problem-pin{height:100svh;display:flex;flex-direction:column;justify-content:center}
+.pin-mode .problem-head{padding:0 0 3vh}
+.pin-mode .problem-stage{position:relative;min-height:38vh;padding:0}
+.pin-mode .struggle{position:absolute;left:0;top:0;border:0;padding:0;max-width:22ch}
+.pin-mode .problem-bar{display:block;position:absolute;left:var(--gutter);right:var(--gutter);bottom:5vh;height:3px;background:var(--lime);transform-origin:left;transform:scaleX(0)}
+.pin-mode .problem-pin{position:relative}
+
+/* =====================================================================
+   03 METHOD — four principles, staggered 2-col composition, giant numerals
+   ===================================================================== */
+.method{padding:var(--section-y) 0;background:var(--sand)}
+.method h2{font-size:var(--fs-h2);line-height:var(--lh-head);max-width:14ch}
+.method-intro{max-width:46ch;margin-top:24px;color:var(--text-2)}
+.principles{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,6vw,90px) clamp(24px,6vw,100px);margin-top:clamp(56px,8vw,110px)}
+.principle{position:relative;padding-top:6px}
+.principle:nth-child(even){margin-top:clamp(0px,9vw,140px)}
+.p-num{font-family:var(--f-display);font-weight:800;font-size:clamp(6rem,15vw,13rem);line-height:.8;color:transparent;-webkit-text-stroke:2px var(--ink);letter-spacing:-.04em}
+.p-art{height:clamp(120px,16vw,190px);margin:22px 0 22px;border-radius:var(--r-m);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.p-art svg{height:78%;width:auto}
+.principle:nth-child(1) .p-art{background:var(--sage)}
+.principle:nth-child(2) .p-art{background:var(--terracotta)}
+.principle:nth-child(3) .p-art{background:var(--ink)}
+.principle:nth-child(4) .p-art{background:var(--lime)}
+.principle h3{font-size:var(--fs-h3)}
+.principle p{margin-top:10px;color:var(--text-2);max-width:36ch}
+@media (max-width:760px){.principles{grid-template-columns:1fr}.principle:nth-child(even){margin-top:0}}
+
+/* =====================================================================
+   04 REAL LIFE — five scenes, each with its own colour world
+   Vertical stack by default; pinned horizontal travel on wide screens
+   ===================================================================== */
+.life{background:var(--white)}
+.life-head{padding:var(--section-y) 0 clamp(36px,5vw,70px)}
+.life-head h2{font-size:var(--fs-h2);line-height:var(--lh-head);max-width:16ch}
+.life-ar{font-size:clamp(1.2rem,2vw,1.7rem);margin-top:22px;color:var(--terracotta-deep)}
+.life-pin{padding-bottom:var(--section-y)}
+.life-track{display:grid;gap:20px;padding:0 var(--gutter)}
+.scene{border-radius:var(--r-l);padding:clamp(26px,4vw,48px);display:flex;flex-direction:column;justify-content:space-between;gap:36px;min-height:360px;border:2px solid var(--ink)}
+.scene h3{font-size:clamp(1.8rem,3.6vw,3rem);line-height:1.05}
+.scene .tag{font-weight:700;font-size:var(--fs-small)}
+.scene .say{font-family:var(--f-display);font-size:clamp(1.3rem,2.4vw,2rem);line-height:1.2;font-weight:400;font-style:italic}
+.scene .meaning{font-size:.95rem;opacity:.78;margin-top:12px;max-width:34ch}
+.scene.s1{background:var(--sage)}
+.scene.s2{background:var(--ink);color:var(--sand)}
+.scene.s2 .say{color:var(--lime)}
+.scene.s3{background:var(--terracotta)}
+.scene.s4{background:var(--sand)}
+.scene.s5{background:var(--lime)}
+.h-mode.life-pin{height:100svh;padding:0;display:flex;align-items:center;overflow:hidden}
+.h-mode .life-track{display:flex;width:max-content;gap:24px;align-items:stretch}
+.h-mode .scene{width:min(520px,60vw);height:min(560px,70svh);min-height:0}
+
+/* =====================================================================
+   05 EXPERIENCE — sage; a real, working mini-lesson
+   ===================================================================== */
+.lesson{background:var(--sage);padding:var(--section-y) 0}
+.lesson-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(30px,6vw,90px);align-items:start}
+.lesson h2{font-size:var(--fs-h2);line-height:var(--lh-head)}
+.lesson-intro{margin-top:22px;max-width:36ch}
+.card{background:var(--white);border:2px solid var(--ink);border-radius:var(--r-l);box-shadow:0 8px 0 var(--ink);padding:clamp(22px,3.4vw,44px)}
+.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;font-weight:700;font-size:var(--fs-small)}
+.dots{display:flex;gap:6px}.dots i{width:10px;height:10px;border-radius:50%;background:var(--line);display:block}.dots i.on{background:var(--ink)}
+.dosay{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.dosay>div{border-radius:var(--r-m);padding:18px 20px;border:2px solid var(--ink)}
+.dosay small{display:block;font-weight:700;font-size:.8rem;margin-bottom:6px}
+.dosay .dont{background:var(--sand)}
+.dosay .dont q{text-decoration:line-through;text-decoration-color:var(--terracotta)}
+.dosay .do{background:var(--lime)}
+.dosay q{quotes:"“" "”";font-family:var(--f-display);font-size:clamp(1.35rem,2.4vw,1.9rem);font-weight:600;line-height:1.15}
+.reveal-btn{margin-top:22px}
+.explain{margin-top:20px;display:none}
+.explain.open{display:block}
+.explain p{color:var(--text-2)}
+.convo{margin-top:16px;display:grid;gap:10px}
+.convo div{padding:12px 16px;border-radius:18px;max-width:88%;border:2px solid var(--ink);font-size:1rem}
+.convo .a{background:var(--sand);border-radius:18px 18px 18px 4px}
+.convo .b{background:var(--lime);justify-self:end;border-radius:18px 18px 4px 18px}
+.quiz{margin-top:28px;padding-top:24px;border-top:2px dashed var(--line)}
+.quiz-q{font-weight:700;margin-bottom:14px}
+.opts{display:grid;gap:10px}
+.opt{text-align:left;padding:14px 18px;border-radius:var(--r-m);border:2px solid var(--ink);background:var(--white);font-weight:600;transition:transform var(--dur-s) var(--ease-out),background var(--dur-s)}
+.opt:hover{transform:translateX(4px);background:var(--sand)}
+.opt.ok{background:var(--lime)}
+.opt.no{background:var(--sand);text-decoration:line-through;text-decoration-color:var(--terracotta)}
+.feedback{margin-top:14px;min-height:1.6em;font-weight:600}
+.card-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+@media (max-width:860px){.lesson-grid{grid-template-columns:1fr}.dosay{grid-template-columns:1fr}}
+
+/* =====================================================================
+   06 PROGRESS — scrubbed seven-step staircase (the logo's idea, as a metaphor)
+   ===================================================================== */
+.progress{padding:var(--section-y) 0;background:var(--sand);overflow:hidden}
+.progress-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(30px,6vw,90px);align-items:end}
+.progress h2{font-size:var(--fs-h2);line-height:var(--lh-head)}
+.progress-copy{margin-top:26px;max-width:46ch;color:var(--text-2)}
+.progress-ar{margin-top:22px;font-size:clamp(1.15rem,1.8vw,1.5rem);color:var(--terracotta-deep)}
+.stairs{display:flex;align-items:flex-end;gap:clamp(6px,1.2vw,14px);height:clamp(220px,34vw,420px)}
+.stairs i{flex:1;display:block;background:var(--ink);border-radius:8px 8px 0 0;transform-origin:bottom}
+.stairs i:nth-child(1){height:14%}.stairs i:nth-child(2){height:26%}.stairs i:nth-child(3){height:38%}
+.stairs i:nth-child(4){height:51%}.stairs i:nth-child(5){height:65%}.stairs i:nth-child(6){height:81%}
+.stairs i:nth-child(7){height:100%;background:var(--lime);border:2px solid var(--ink)}
+.steps{list-style:none;padding:0;margin:clamp(50px,7vw,100px) 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,4vw,56px);border-top:2px solid var(--ink)}
+.steps li{padding-top:22px}
+.steps b{display:block;font-family:var(--f-display);font-size:var(--fs-h3);margin-bottom:8px}
+.steps p{color:var(--text-2);max-width:30ch}
+@media (max-width:860px){.progress-grid{grid-template-columns:1fr}.steps{grid-template-columns:1fr}}
+
+/* =====================================================================
+   07 FINAL CTA — ink; type only, one action
+   ===================================================================== */
+.cta{background:var(--ink);color:var(--text-on-ink);padding:var(--section-y) 0;overflow:hidden}
+.cta h2{font-size:clamp(2.6rem,7.6vw,7rem);line-height:var(--lh-display);max-width:13ch}
+.cta-ar{font-size:clamp(1.4rem,3vw,2.4rem);color:var(--lime);margin-top:30px}
+.cta p.sup{margin-top:20px;max-width:42ch;color:var(--text-on-ink-2)}
+.cta-btns{display:flex;flex-wrap:wrap;gap:16px;margin-top:40px}
+.cta-mark{position:absolute;right:-6%;bottom:-12%;width:min(52vw,640px);opacity:.1;pointer-events:none}
+
+/* ---------- Footer ---------- */
+footer{background:var(--ink);color:var(--text-on-ink);border-top:1px solid var(--line-on-ink);padding:60px 0 36px}
+.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+.foot .logo{color:var(--sand)}.foot .logo .l{color:var(--sage)}
+.foot p{color:var(--text-on-ink-2);max-width:34ch;margin-top:14px;font-size:1rem}
+.foot h4{margin:0 0 14px;font-size:var(--fs-small);color:var(--text-on-ink-2);font-weight:700}
+.foot ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.foot a:hover{color:var(--lime)}
+.legal{margin-top:46px;padding-top:22px;border-top:1px solid var(--line-on-ink);font-size:.88rem;color:var(--text-on-ink-2)}
+@media (max-width:760px){.foot{grid-template-columns:1fr}}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <a class="logo" href="#top" aria-label="SevenLingo home">
+    <svg viewBox="0 0 60 70" fill="none" aria-hidden="true"><polyline points="8,10 52,10 22,60" stroke="currentColor" stroke-width="11" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+    <span>Seven<span class="l">Lingo</span></span>
+  </a>
+  <nav class="nav-links" id="navLinks" aria-label="Main">
+    <a href="#method">Method</a>
+    <a href="#life">Real life</a>
+    <a href="#lesson">Try a lesson</a>
+    <a href="#progress">Progress</a>
+    <a class="btn btn-primary" href="#contact">Start Your Journey</a>
+  </nav>
+  <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">
+    <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true"><path d="M1 1h18M1 7h18M1 13h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+</header>
+
+<main id="main">
+
+<!-- 01 HERO -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="hero-eyebrow" data-in><i></i>Your next chapter starts here.</p>
+      <h1 aria-label="English that actually fits your life.">
+        <span class="ln"><span>English that</span></span>
+        <span class="ln"><span>actually fits</span></span>
+        <span class="ln"><span>your life.</span></span>
+      </h1>
+      <p class="hero-ar ar" lang="ar" dir="rtl" data-in>غادي تتعلم تهضر بالإنجليزية بأحسن طريقة!</p>
+      <p class="hero-ar2 ar" lang="ar" dir="rtl" data-in>من أول كلمة حتى تولّي تهضر بثقة.</p>
+      <p class="hero-sub" data-in>Real English. Practical lessons. More confidence. Learn to communicate beyond the classroom.</p>
+      <div class="hero-cta" data-in>
+        <a class="btn btn-primary" href="#contact" data-magnetic>Start Your Journey</a>
+        <a class="btn btn-ghost" href="#method">Explore Our Approach</a>
+      </div>
+    </div>
+    <div class="hero-art" id="heroArt" aria-hidden="true">
+      <!-- Original artwork: horseshoe-arch frame, zellige lattice, layered "7" signature -->
+      <svg viewBox="0 0 600 720" fill="none">
+        <defs>
+          <pattern id="zel" width="48" height="48" patternUnits="userSpaceOnUse">
+            <rect x="8" y="8" width="32" height="32" stroke="#171717" stroke-opacity=".22" stroke-width="2"/>
+            <rect x="8" y="8" width="32" height="32" stroke="#171717" stroke-opacity=".22" stroke-width="2" transform="rotate(45 24 24)"/>
+          </pattern>
+          <clipPath id="archClip"><path d="M40 700V300A260 260 0 0 1 560 300V700Z"/></clipPath>
+        </defs>
+        <path d="M40 700V300A260 260 0 0 1 560 300V700Z" fill="#C76545"/>
+        <g clip-path="url(#archClip)">
+          <rect width="600" height="720" fill="url(#zel)" data-depth="6"/>
+          <polyline class="m3" points="215,262 470,262 350,640" stroke="#171717" stroke-width="30" stroke-linecap="square" stroke-linejoin="miter"/>
+          <polyline class="m2" points="178,222 430,222 292,610" stroke="#D5FF45" stroke-width="46" stroke-linecap="square" stroke-linejoin="miter"/>
+          <polyline class="m1" points="135,180 390,180 210,590" stroke="#F5F0E7" stroke-width="64" stroke-linecap="square" stroke-linejoin="miter"/>
+        </g>
+        <path d="M40 700V300A260 260 0 0 1 560 300V700Z" stroke="#171717" stroke-width="3"/>
+      </svg>
+      <span class="bubble b1" data-depth="26">Hello!</span>
+      <span class="bubble b2" data-depth="-18" lang="ar" dir="rtl">مرحبا بيك</span>
+      <span class="bubble b3" data-depth="34">I agree!</span>
+    </div>
+  </div>
+</section>
+
+<!-- 02 PROBLEM -->
+<section class="problem on-ink" id="problem">
+  <div class="problem-pin" id="problemPin">
+    <div class="wrap problem-head">
+      <span class="sec-label">The real problem</span>
+      <h2>Understanding English is one thing. Speaking it is another.</h2>
+      <p class="problem-ar ar" lang="ar" dir="rtl">كتفهم الإنجليزية، ولكن ملي كاتجي تهضر كتبلوكا؟</p>
+    </div>
+    <div class="wrap problem-stage">
+      <p class="struggle">I understand every word. Then someone asks me a question.</p>
+      <p class="struggle">I translate in my head, and the conversation moves on.</p>
+      <p class="struggle">My heart speeds up the moment I have to speak.</p>
+      <p class="struggle">I know the vocabulary. I just never get to use it.</p>
+      <p class="struggle">I studied the grammar, so I stay quiet instead.</p>
+      <p class="struggle resolve">That's not a you problem. It's a practice problem.</p>
+    </div>
+    <div class="problem-bar" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- 03 METHOD -->
+<section class="method" id="method">
+  <div class="wrap">
+    <span class="sec-label">The SevenLingo method</span>
+    <h2>Four ideas behind every lesson.</h2>
+    <p class="method-intro">Less memorizing. More using. Each principle is built to move you from knowing English to speaking it.</p>
+    <div class="principles">
+      <article class="principle">
+        <div class="p-num" aria-hidden="true">1</div>
+        <div class="p-art" aria-hidden="true"><svg viewBox="0 0 120 100" fill="none"><rect x="6" y="8" width="70" height="40" rx="14" fill="#F5F0E7" stroke="#171717" stroke-width="3"/><rect x="44" y="52" width="70" height="40" rx="14" fill="#D5FF45" stroke="#171717" stroke-width="3"/></svg></div>
+        <h3>Learn Naturally</h3>
+        <p>Discover useful expressions and vocabulary in context, the way people really use them.</p>
+      </article>
+      <article class="principle">
+        <div class="p-num" aria-hidden="true">2</div>
+        <div class="p-art" aria-hidden="true"><svg viewBox="0 0 120 100" fill="none" stroke="#171717" stroke-width="5" stroke-linecap="round"><path d="M10 50v0M30 36v28M50 20v60M70 30v40M90 40v20M110 50v0"/></svg></div>
+        <h3>Speak More</h3>
+        <p>Practice using English in realistic situations, out loud, from the very first lesson.</p>
+      </article>
+      <article class="principle">
+        <div class="p-num" aria-hidden="true">3</div>
+        <div class="p-art" aria-hidden="true"><svg viewBox="0 0 140 40" fill="none"><g stroke="#F5F0E7" stroke-width="3"><circle cx="14" cy="20" r="9" fill="#D5FF45" stroke="#D5FF45"/><circle cx="34" cy="20" r="9" fill="#D5FF45" stroke="#D5FF45"/><circle cx="54" cy="20" r="9" fill="#D5FF45" stroke="#D5FF45"/><circle cx="74" cy="20" r="9"/><circle cx="94" cy="20" r="9"/><circle cx="114" cy="20" r="9"/><circle cx="134" cy="20" r="0"/></g></svg></div>
+        <h3>Build Consistency</h3>
+        <p>Develop a routine you can actually keep. A little every day beats a lot once in a while.</p>
+      </article>
+      <article class="principle">
+        <div class="p-num" aria-hidden="true">4</div>
+        <div class="p-art" aria-hidden="true"><svg viewBox="0 0 120 100" fill="none"><path d="M6 94h28V68h28V42h28V16h28v78H6z" fill="#171717"/></svg></div>
+        <h3>Grow With Confidence</h3>
+        <p>Track your progress and gradually take on more challenging conversations.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 04 REAL LIFE -->
+<section class="life" id="life">
+  <div class="wrap life-head">
+    <span class="sec-label">English for your real life</span>
+    <h2>Not just English lessons. Real-life skills.</h2>
+    <p class="life-ar ar" lang="ar" dir="rtl">الإنجليزية اللي غادي تحتاجها فحياتك اليومية.</p>
+  </div>
+  <div class="life-pin" id="lifePin">
+    <div class="life-track" id="lifeTrack">
+      <article class="scene s1"><div><span class="tag">University &amp; academic life</span><h3>Join the discussion, not just the lecture.</h3></div><div><p class="say">“Could you clarify what you mean by that?”</p><p class="meaning">For seminars, group projects and emails to professors.</p></div></article>
+      <article class="scene s2 on-ink"><div><span class="tag">Career &amp; job interviews</span><h3>Say what you can do, clearly.</h3></div><div><p class="say">“Let me walk you through my experience.”</p><p class="meaning">For interviews, meetings and your first week at work.</p></div></article>
+      <article class="scene s3"><div><span class="tag">Travel &amp; international communication</span><h3>Find your way, and make friends on the way.</h3></div><div><p class="say">“Excuse me, which way is the airport shuttle?”</p><p class="meaning">For airports, hotels, hostels and the people you meet.</p></div></article>
+      <article class="scene s4"><div><span class="tag">Everyday conversations</span><h3>Small talk is a big skill.</h3></div><div><p class="say">“Do you want to grab a coffee later?”</p><p class="meaning">For new friends, online games and chatting with anyone.</p></div></article>
+      <article class="scene s5"><div><span class="tag">Personal development &amp; online learning</span><h3>Unlock the internet in its original language.</h3></div><div><p class="say">“I'm working on my pronunciation every day.”</p><p class="meaning">For courses, videos, communities and your own goals.</p></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- 05 EXPERIENCE THE METHOD -->
+<section class="lesson" id="lesson">
+  <div class="wrap lesson-grid">
+    <div>
+      <span class="sec-label" style="color:var(--ink)">Experience the method</span>
+      <h2>Try a mini lesson.</h2>
+      <p class="lesson-intro">No sign-up. Spot the mistake, see why, then test yourself. This is how SevenLingo teaches: short, practical and natural.</p>
+    </div>
+    <div class="card" id="lessonCard">
+      <div class="card-top"><span id="lessonCount">Lesson 1 of 3</span><span class="dots" id="lessonDots" aria-hidden="true"><i></i><i></i><i></i></span></div>
+      <div class="dosay">
+        <div class="dont"><small>Don't say</small><q id="lWrong"></q></div>
+        <div class="do"><small>Say</small><q id="lRight"></q></div>
+      </div>
+      <button class="btn btn-ghost reveal-btn" id="revealBtn" aria-expanded="false" aria-controls="explain">Why? Show me</button>
+      <div class="explain" id="explain">
+        <p id="lContext"></p>
+        <div class="convo"><div class="a" id="lA"></div><div class="b" id="lB"></div></div>
+      </div>
+      <div class="quiz">
+        <p class="quiz-q">Which one is correct?</p>
+        <div class="opts" id="opts"></div>
+        <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+      </div>
+      <div class="card-actions"><button class="btn btn-primary" id="nextBtn">Another example</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 PROGRESS -->
+<section class="progress" id="progress">
+  <div class="wrap">
+    <div class="progress-grid">
+      <div>
+        <span class="sec-label">Your progress starts with one step</span>
+        <h2>Small steps. Real progress.</h2>
+        <p class="progress-copy">You don't need perfect English to start speaking. You need the right practice, a little consistency, and the courage to begin.</p>
+        <p class="progress-ar ar" lang="ar" dir="rtl">ما خاصكش تهضر مزيان باش تبدا — خاصك غير تبدا.</p>
+      </div>
+      <div class="stairs" id="stairs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+    <ol class="steps">
+      <li><b>Tell us your goal</b><p>University, work, interviews, travel. Whatever English you need first.</p></li>
+      <li><b>Start where you are</b><p>No perfect English required. Together we choose a sensible first step.</p></li>
+      <li><b>Practice a little, often</b><p>Short, regular practice beats long, rare sessions. Build the habit first.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 07 FINAL CTA -->
+<section class="cta on-ink" id="contact">
+  <svg class="cta-mark" viewBox="0 0 420 520" fill="none" aria-hidden="true"><polyline points="90,70 330,70 150,460" stroke="#F5F0E7" stroke-width="60" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+  <div class="wrap" style="position:relative">
+    <span class="sec-label">Let's get you speaking</span>
+    <h2>Your English journey starts with a conversation.</h2>
+    <p class="cta-ar ar" lang="ar" dir="rtl">يلا نبداو الرحلة ديالك مع الإنجليزية!</p>
+    <p class="sup">Tell us about your goals, and let's explore how SevenLingo can help you improve.</p>
+    <div class="cta-btns">
+      <a class="btn btn-primary" data-wa data-magnetic>Chat With Us on WhatsApp</a>
+      <a class="btn btn-ghost" href="#top">Explore SevenLingo</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="on-ink">
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a class="logo" href="#top"><svg viewBox="0 0 60 70" fill="none" aria-hidden="true"><polyline points="8,10 52,10 22,60" stroke="currentColor" stroke-width="11" stroke-linecap="square" stroke-linejoin="miter"/></svg><span>Seven<span class="l">Lingo</span></span></a>
+        <p>English lessons designed around your real life. Built for Moroccan learners.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul><li><a href="#method">Method</a></li><li><a href="#life">Real life</a></li><li><a href="#lesson">Try a lesson</a></li><li><a href="#progress">Progress</a></li></ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul id="contactList"><li><a data-wa>WhatsApp</a></li></ul>
+        <div id="socialWrap" hidden><h4 style="margin-top:26px">Follow</h4><ul id="socialList"></ul></div>
+      </div>
+    </div>
+    <div class="legal">© 2026 SevenLingo. All rights reserved.</div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+/* =====================================================================
+   CONFIG — edit these. Nothing here is invented.
+   ===================================================================== */
+const CONFIG = {
+  whatsappNumber: "",   // international format, digits only, e.g. "2126XXXXXXXX". Empty = WhatsApp opens its contact picker.
+  whatsappMessage: "Hello SevenLingo! I'm interested in learning English. I'd like to know more about your lessons and how to get started.",
+  email: "",            // shown in footer only if set
+  social: { instagram: "", tiktok: "", facebook: "", youtube: "" } // only non-empty entries are rendered
+};
+
+/* =====================================================================
+   Helpers + non-animation behaviour (works even if GSAP never loads)
+   ===================================================================== */
+const $  = (s, c=document) => c.querySelector(s);
+const $$ = (s, c=document) => [...c.querySelectorAll(s)];
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* WhatsApp */
+(function(){
+  const n = CONFIG.whatsappNumber.replace(/\D/g,'');
+  const text = encodeURIComponent(CONFIG.whatsappMessage);
+  const href = n ? `https://wa.me/${n}?text=${text}` : `https://wa.me/?text=${text}`;
+  $$('[data-wa]').forEach(a => { a.href = href; a.target = '_blank'; a.rel = 'noopener'; });
+  if(!n) console.warn('[SevenLingo] CONFIG.whatsappNumber is empty: WhatsApp will open its contact picker instead of a direct chat.');
+})();
+
+/* Footer contact + social: render only what is configured */
+(function(){
+  if(CONFIG.email){ const li=document.createElement('li'); li.innerHTML=`<a href="mailto:${CONFIG.email}">${CONFIG.email}</a>`; $('#contactList').appendChild(li); }
+  const entries = Object.entries(CONFIG.social).filter(([,u]) => u);
+  if(entries.length){
+    $('#socialWrap').hidden = false;
+    entries.forEach(([k,u]) => { const li=document.createElement('li'); li.innerHTML=`<a href="${u}" target="_blank" rel="noopener">${k[0].toUpperCase()+k.slice(1)}</a>`; $('#socialList').appendChild(li); });
+  }
+})();
+
+/* Mobile menu */
+const navEl = $('#nav'), menuBtn = $('#menuBtn'), navLinks = $('#navLinks');
+function setMenu(open){
+  navLinks.classList.toggle('open', open); navEl.classList.toggle('menu-open', open);
+  menuBtn.setAttribute('aria-expanded', open); menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+menuBtn.addEventListener('click', () => setMenu(!navLinks.classList.contains('open')));
+document.addEventListener('keydown', e => { if(e.key==='Escape') setMenu(false); });
+
+/* Interactive lesson */
+const LESSONS = [
+  { wrong:"I am agree.", right:"I agree.",
+    context:"Use “I agree” when you have the same opinion as someone else. “Agree” is already a verb, so you don't need “am”.",
+    a:"Learning a little every day is more effective.", b:"I agree!",
+    options:["I am agree.","I agree.","I'm agree."], answer:1 },
+  { wrong:"I have 20 years.", right:"I'm 20 years old.",
+    context:"In English we use “to be” for age, not “to have”. French says “J'ai 20 ans”, so it's easy to copy that structure by accident.",
+    a:"How old are you?", b:"I'm 20 years old.",
+    options:["I have 20 years.","I'm 20 years old.","I am 20 years."], answer:1 },
+  { wrong:"She said me the news.", right:"She told me the news.",
+    context:"“Tell” goes directly with a person: tell someone something. “Say” goes with the words: say something (to someone).",
+    a:"Did Sara call you?", b:"Yes, she told me the news.",
+    options:["She said me the news.","She told me the news.","She telled me the news."], answer:1 }
+];
+let li = 0;
+function renderLesson(){
+  const L = LESSONS[li];
+  $('#lWrong').textContent = L.wrong; $('#lRight').textContent = L.right;
+  $('#lContext').textContent = L.context; $('#lA').textContent = 'A: “'+L.a+'”'; $('#lB').textContent = 'B: “'+L.b+'”';
+  $('#lessonCount').textContent = `Lesson ${li+1} of ${LESSONS.length}`;
+  $$('#lessonDots i').forEach((d,i) => d.classList.toggle('on', i===li));
+  $('#explain').classList.remove('open'); $('#revealBtn').setAttribute('aria-expanded','false'); $('#revealBtn').textContent = 'Why? Show me';
+  $('#feedback').textContent = '';
+  const box = $('#opts'); box.innerHTML = '';
+  L.options.forEach((t,i) => {
+    const b = document.createElement('button'); b.className = 'opt'; b.type = 'button'; b.textContent = t;
+    b.addEventListener('click', () => {
+      if(i === L.answer){ b.classList.add('ok'); $('#feedback').textContent = 'Correct. That sounds natural.'; $('#explain').classList.add('open'); $('#revealBtn').setAttribute('aria-expanded','true'); $('#revealBtn').textContent = 'Hide explanation'; }
+      else { b.classList.add('no'); b.disabled = true; $('#feedback').textContent = 'Close. Mistakes are part of speaking. Try another option.'; }
+    });
+    box.appendChild(b);
+  });
+}
+$('#revealBtn').addEventListener('click', () => {
+  const open = $('#explain').classList.toggle('open');
+  $('#revealBtn').setAttribute('aria-expanded', open); $('#revealBtn').textContent = open ? 'Hide explanation' : 'Why? Show me';
+});
+$('#nextBtn').addEventListener('click', () => { li = (li+1) % LESSONS.length; renderLesson(); });
+renderLesson();
+
+/* =====================================================================
+   MOTION — GSAP + ScrollTrigger + Lenis
+   Tokens mirror the CSS variables.
+   ===================================================================== */
+const MOTION = { s:.25, m:.6, l:1.1, ease:'power4.out', stagger:.08 };
+
+(function initMotion(){
+  if(!window.gsap || !window.ScrollTrigger){ console.warn('[SevenLingo] GSAP unavailable: page runs without animation.'); return; }
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* Nav background on scroll (works with or without Lenis) */
+  ScrollTrigger.create({ start: 40, end: 'max', onUpdate: s => navEl.classList.toggle('solid', s.scroll() > 40) });
+
+  /* Lenis, wired into GSAP's ticker; anchors routed through Lenis */
+  let lenis = null;
+  if(!reduce && window.Lenis){
+    lenis = new Lenis({ duration:1.05, easing:t => 1 - Math.pow(1-t,3) });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(t => lenis.raf(t*1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+  $$('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+    const id = a.getAttribute('href'); if(id.length < 2) return;
+    const t = $(id); if(!t) return;
+    e.preventDefault(); setMenu(false);
+    lenis ? lenis.scrollTo(t, {offset:0}) : t.scrollIntoView({behavior: reduce ? 'auto' : 'smooth'});
+  }));
+
+  if(reduce){ return; } // content stays fully visible, no motion
+
+  try {
+    /* ---- 01 HERO: staggered line entrance + controlled parallax ---- */
+    gsap.set('.hero h1 .ln > span', { yPercent:110 });
+    gsap.set('.hero [data-in]', { opacity:0, y:18 });
+    gsap.set('.hero-art', { opacity:0, scale:.96 });
+    ['.m3','.m2','.m1'].forEach(sel => { const el=$(sel); const L=el.getTotalLength(); el.style.strokeDasharray=L; el.style.strokeDashoffset=L; });
+    gsap.timeline({ defaults:{ease:MOTION.ease} })
+      .to('.hero [data-in]:first-child', { opacity:1, y:0, duration:MOTION.m }, 0)
+      .to('.hero h1 .ln > span', { yPercent:0, duration:MOTION.l, stagger:.12 }, .1)
+      .to('.hero [data-in]', { opacity:1, y:0, duration:.8, stagger:MOTION.stagger }, .55)
+      .to('.hero-art', { opacity:1, scale:1, duration:MOTION.l }, .2)
+      .to('.m3', { strokeDashoffset:0, duration:1.1, ease:'power3.inOut' }, .6)
+      .to('.m2', { strokeDashoffset:0, duration:1.1, ease:'power3.inOut' }, .72)
+      .to('.m1', { strokeDashoffset:0, duration:1.1, ease:'power3.inOut' }, .84);
+    gsap.to('.hero-art', { yPercent:8, ease:'none', scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:true } });
+    if(matchMedia('(hover:hover) and (pointer:fine)').matches){
+      const art = $('#heroArt');
+      art.closest('.hero').addEventListener('mousemove', e => {
+        const x = (e.clientX/innerWidth - .5), y = (e.clientY/innerHeight - .5);
+        $$('[data-depth]', art).forEach(el => gsap.to(el, { x:x*+el.dataset.depth, y:y*+el.dataset.depth, duration:.8, ease:'power2.out', overwrite:'auto' }));
+      });
+    }
+
+    /* ---- Button micro-interaction: magnetic pull ---- */
+    if(matchMedia('(hover:hover) and (pointer:fine)').matches){
+      $$('[data-magnetic]').forEach(b => {
+        b.addEventListener('mousemove', e => { const r=b.getBoundingClientRect(); gsap.to(b,{ x:(e.clientX-r.left-r.width/2)*.18, y:(e.clientY-r.top-r.height/2)*.28, duration:.35, ease:'power2.out' }); });
+        b.addEventListener('mouseleave', () => gsap.to(b,{ x:0, y:0, duration:.6, ease:'elastic.out(1,.45)' }));
+      });
+    }
+
+    const mm = gsap.matchMedia();
+
+    /* ---- 02 PROBLEM: pinned, scrubbed word-by-word text transformation (desktop) ---- */
+    $$('.struggle').forEach(p => { p.innerHTML = p.textContent.trim().split(/\s+/).map(w => `<span class="w">${w}</span>`).join(' '); });
+    mm.add('(min-width:768px)', () => {
+      const sec = $('#problem'); sec.classList.add('pin-mode');
+      const items = $$('.struggle'), tl = gsap.timeline({ scrollTrigger:{ trigger:'#problemPin', start:'top top', end:'+='+(items.length*65)+'%', scrub:.6, pin:true, anticipatePin:1 } });
+      tl.fromTo('.problem-bar', { scaleX:0 }, { scaleX:1, ease:'none', duration:items.length }, 0);
+      items.forEach((el,i) => {
+        tl.fromTo($$('.w',el), { opacity:0, y:34 }, { opacity:1, y:0, stagger:.05, duration:.55, ease:'power3.out' }, i);
+        if(i < items.length-1) tl.to($$('.w',el), { opacity:0, y:-26, stagger:.02, duration:.35, ease:'power2.in' }, i+.82);
+      });
+      return () => sec.classList.remove('pin-mode');
+    });
+    mm.add('(max-width:767px)', () => {
+      $$('.struggle').forEach(el => gsap.from($$('.w',el), { opacity:0, y:20, stagger:.04, duration:.5, scrollTrigger:{ trigger:el, start:'top 88%', once:true } }));
+    });
+
+    /* ---- 03 METHOD: staggered reveals + clip-mask on the visual ---- */
+    $$('.principle').forEach(p => {
+      const tl = gsap.timeline({ scrollTrigger:{ trigger:p, start:'top 82%', once:true } });
+      tl.from($('.p-num',p), { yPercent:30, opacity:0, duration:.8, ease:'power3.out' })
+        .fromTo($('.p-art',p), { clipPath:'inset(100% 0% 0% 0% round 24px)' }, { clipPath:'inset(0% 0% 0% 0% round 24px)', duration:.9, ease:'power3.inOut' }, .1)
+        .from($$('h3, p', p), { y:20, opacity:0, stagger:.08, duration:.6, ease:'power2.out' }, .45);
+    });
+
+    /* ---- 04 REAL LIFE: pinned horizontal travel (wide screens only) ---- */
+    mm.add('(min-width:960px)', () => {
+      const pin = $('#lifePin'), track = $('#lifeTrack'); pin.classList.add('h-mode');
+      const dist = () => Math.max(track.scrollWidth - innerWidth, 0);
+      gsap.to(track, { x:() => -dist(), ease:'none', scrollTrigger:{ trigger:pin, start:'top top', end:() => '+='+dist(), pin:true, scrub:.6, invalidateOnRefresh:true, anticipatePin:1 } });
+      return () => { pin.classList.remove('h-mode'); };
+    });
+    mm.add('(max-width:959px)', () => {
+      $$('.scene').forEach(s => gsap.from(s, { y:40, opacity:0, duration:.7, ease:'power3.out', scrollTrigger:{ trigger:s, start:'top 90%', once:true } }));
+    });
+
+    /* ---- 05 LESSON: reveal-on-scroll, then direct interaction ---- */
+    gsap.from('#lessonCard', { y:50, opacity:0, duration:.9, ease:'power3.out', scrollTrigger:{ trigger:'#lessonCard', start:'top 85%', once:true } });
+
+    /* ---- 06 PROGRESS: scrubbed staircase ---- */
+    gsap.from('#stairs i', { scaleY:0, stagger:.12, ease:'none', scrollTrigger:{ trigger:'#stairs', start:'top 90%', end:'top 35%', scrub:.6 } });
+    gsap.from('.steps li', { y:30, opacity:0, stagger:.1, duration:.7, ease:'power2.out', scrollTrigger:{ trigger:'.steps', start:'top 88%', once:true } });
+
+    /* ---- 07 CTA: restrained entrance ---- */
+    gsap.from('.cta .wrap > *', { y:30, opacity:0, stagger:.1, duration:.8, ease:'power3.out', scrollTrigger:{ trigger:'.cta', start:'top 70%', once:true } });
+    gsap.to('.cta-mark', { yPercent:-10, ease:'none', scrollTrigger:{ trigger:'.cta', start:'top bottom', end:'bottom top', scrub:true } });
+
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+  } catch(err){
+    /* If any animation setup fails, strip inline hiding styles so content is still readable */
+    console.error('[SevenLingo] animation setup failed, falling back to static layout:', err);
+    ScrollTrigger.getAll().forEach(t => t.kill());
+    gsap.killTweensOf('*');
+    $$('[style]').forEach(el => { el.style.opacity=''; el.style.transform=''; el.style.clipPath=''; el.style.visibility=''; });
+    $$('.pin-mode,.h-mode').forEach(el => el.classList.remove('pin-mode','h-mode'));
+  }
+})();
+</script>
+</body>
+</html>
